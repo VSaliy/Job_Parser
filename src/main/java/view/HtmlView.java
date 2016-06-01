@@ -16,7 +16,7 @@ import org.jsoup.nodes.Document;
 public class HtmlView implements View {
 
     private Controller controller;
-    private final String filePath = "./src/" + this.getClass().getPackage().getName().replace(".", "/") + "vacancies.html";
+    private final String filePath = "./home/alex/IdeaProjects/Job Parser/src/main/resources/vacancies.html";
 
     public void update(List<Vacancy> vacancies) {
         updateFile(getUpdatedFileContent(vacancies));
@@ -34,7 +34,7 @@ public class HtmlView implements View {
         String fileContent = null;
         try {
             Document document = getDocument();
-            Element templateElement = document.select("template").first();
+            Element templateElement = document.select(".vacancy template").first();
             Element patternElement = templateElement.clone();
             patternElement.removeAttr("style");
             patternElement.removeClass("template");
