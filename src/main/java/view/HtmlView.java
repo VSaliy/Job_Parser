@@ -8,8 +8,10 @@ import java.util.List;
 public class HtmlView implements View {
 
     private Controller controller;
+    private final String filePath = "./src/" + this.getClass().getPackage().getName().replace(".", "/") + "vacancies.html";
 
     public void update(List<Vacancy> vacancies) {
+
         System.out.println(vacancies);
     }
 
@@ -18,6 +20,15 @@ public class HtmlView implements View {
     }
 
     public void userCitySelectEmulationMethod() {
-        controller.onCitySelect("odessa");
+        controller.onCitySelect("lvov");
+    }
+
+    private String getUpdatedFileContent(List<Vacancy> vacancies) {
+        //TODO
+        return null;
+    }
+
+    private void updateFile(String fileBody) {
+        //TODO
     }
 }
