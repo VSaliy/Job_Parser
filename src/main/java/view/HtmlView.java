@@ -1,9 +1,17 @@
 package view;
 
 import controller.Controller;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 import vo.Vacancy;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
+
+import org.jsoup.nodes.Document;
+
 
 public class HtmlView implements View {
 
@@ -11,8 +19,7 @@ public class HtmlView implements View {
     private final String filePath = "./src/" + this.getClass().getPackage().getName().replace(".", "/") + "vacancies.html";
 
     public void update(List<Vacancy> vacancies) {
-
-        System.out.println(vacancies);
+        updateFile(getUpdatedFileContent(vacancies));
     }
 
     public void setController(Controller controller) {
@@ -24,11 +31,45 @@ public class HtmlView implements View {
     }
 
     private String getUpdatedFileContent(List<Vacancy> vacancies) {
-        //TODO
-        return null;
+        String fileContent = null;
+        try {
+            Document document = getDocument();
+            Element templateElement = document.select("template").first();
+            Element patternElement = templateElement.clone();
+            patternElement.removeAttr("style");
+            patternElement.removeClass("template");
+
+            for (Vacancy vacancy : vacancies) {
+                Element newVacancyElement = patternElement.clone();
+                newVacancyElement.getElementsByClass("city").first().text(vacancy.getCity());
+                newVacancyElement.getElementsByClass("companyName").first().text(vacancy.getCompanyName());
+                Element link = newVacancyElement.getElementsByTag("a").first();
+                link.text(vacancy.getTitle());
+                link.attr("href", vacancy.getUrl());
+
+                templateElement.before(newVacancyElement.outerHtml());
+            }
+            fileContent = document.html();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("IO exception!");
+        }
+        return fileContent;
     }
 
     private void updateFile(String fileBody) {
-        //TODO
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write(fileBody);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected Document getDocument() throws IOException {
+        Document document = Jsoup.parse(filePath, "UTF-8");
+        return document;
     }
 }
