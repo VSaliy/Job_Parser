@@ -11,7 +11,7 @@ public class Model {
     private View view;
     private Provider[] providers;
 
-    public Model(View view, Provider[] providers) {
+    public Model(View view, Provider... providers) {
         if (view == null || providers.length == 0) {
             throw new IllegalArgumentException();
         }

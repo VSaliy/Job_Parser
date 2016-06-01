@@ -7,13 +7,17 @@ import java.util.List;
 
 public class HtmlView implements View {
 
+    private Controller controller;
+
     public void update(List<Vacancy> vacancies) {
-        //TODO
+        System.out.println(vacancies);
     }
 
     public void setController(Controller controller) {
-        //TODO
+        this.controller = controller;
     }
 
-
+    public void userCitySelectEmulationMethod() {
+        controller.onCitySelect("odessa");
+    }
 }
