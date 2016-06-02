@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element;
 import vo.Vacancy;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -16,7 +17,7 @@ import org.jsoup.nodes.Document;
 public class HtmlView implements View {
 
     private Controller controller;
-    private final String filePath = "./home/alex/IdeaProjects/Job Parser/src/main/resources/vacancies.html";
+    private final String filePath = "/home/alex/IdeaProjects/Job Parser/src/main/resources/vacancies.html";
 
     public void update(List<Vacancy> vacancies) {
         updateFile(getUpdatedFileContent(vacancies));
@@ -27,14 +28,14 @@ public class HtmlView implements View {
     }
 
     public void userCitySelectEmulationMethod() {
-        controller.onCitySelect("lvov");
+        controller.onCitySelect("kiev");
     }
 
     private String getUpdatedFileContent(List<Vacancy> vacancies) {
         String fileContent = null;
         try {
             Document document = getDocument();
-            Element templateElement = document.select(".vacancy template").first();
+            Element templateElement = document.select(".template").first();
             Element patternElement = templateElement.clone();
             patternElement.removeAttr("style");
             patternElement.removeClass("template");
@@ -62,6 +63,7 @@ public class HtmlView implements View {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write(fileBody);
+            writer.flush();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -69,7 +71,7 @@ public class HtmlView implements View {
     }
 
     protected Document getDocument() throws IOException {
-        Document document = Jsoup.parse(filePath, "UTF-8");
+        Document document = Jsoup.parse(new File(filePath), "UTF-8");
         return document;
     }
 }
