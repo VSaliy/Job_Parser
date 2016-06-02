@@ -18,7 +18,7 @@ public class HHStrategy implements Strategy {
     private final String URL_FORMAT = "https://hh.ua/search/vacancy?text=java+%s&page=%d";
 
     public List<Vacancy> getVacancies(String searchString){
-        List<Vacancy> vacancies = new ArrayList<Vacancy>();
+        List<Vacancy> vacancies = new ArrayList<>();
         try {
             int page = 0;
             Document document;
@@ -54,7 +54,7 @@ public class HHStrategy implements Strategy {
         return vacancies;
     }
 
-    protected Document getDocument(String searchString, int page) throws IOException {
+    private Document getDocument(String searchString, int page) throws IOException {
         String url = String.format(URL_FORMAT, searchString, page);
         Document document = Jsoup.connect(url)
                 .userAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) " +

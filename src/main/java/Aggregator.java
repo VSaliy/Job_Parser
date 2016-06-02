@@ -14,7 +14,7 @@ public class Aggregator {
         HtmlView view = new HtmlView();
         Model model = new Model(view, new Provider(new HHStrategy()));
         view.setController(new Controller(model));
-        view.userCitySelectEmulationMethod();
+        view.userCitySelectEmulationMethod("kiev");
 
     }
 }
