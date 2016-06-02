@@ -46,7 +46,7 @@ public class HtmlView implements View {
                 newVacancyElement.getElementsByClass("companyName").first().text(vacancy.getCompanyName());
                 Element link = newVacancyElement.getElementsByTag("a").first();
                 link.text(vacancy.getTitle());
-                link.attr("href", vacancy.getUrl());
+                link.attr("href", vacancy.getSiteName() + vacancy.getUrl());
 
                 templateElement.before(newVacancyElement.outerHtml());
             }

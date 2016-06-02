@@ -6,17 +6,21 @@ import java.util.List;
 
 public class Provider {
 
-    private Strategy strategy;
+    private Strategy[] strategies;
 
-    public Provider(Strategy strategy) {
-        this.strategy = strategy;
+    public Provider(Strategy... strategies) {
+        this.strategies = strategies;
     }
 
-    public void setStrategy(Strategy strategy) {
-        this.strategy = strategy;
+    public void setStrategy(Strategy... strategies) {
+        this.strategies = strategies;
     }
 
     public List<Vacancy> getJavaVacancies(String searchString) {
-        return strategy.getVacancies(searchString);
+        List<Vacancy> vacancies = strategies[0].getVacancies(searchString);
+        for (int i = 1; i < strategies.length; i++) {
+            vacancies.addAll(strategies[i].getVacancies(searchString));
+        }
+        return vacancies;
     }
 }
